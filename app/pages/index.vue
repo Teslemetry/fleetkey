@@ -24,13 +24,11 @@ const valid = computed(
 );
 
 const upload = () =>
-  hubKV()
-    .set(id, pem)
-    .then(() =>
-      router.push(
-        `https://${id}.fleetkey.teslemetry.xyz/.well-known/appspecific/com.tesla.3p.public-key.pem`,
-      ),
-    );
+  $fetch("/api/create", { method: "POST", body: { id, pem } }).then(() =>
+    router.push(
+      `https://${id}.fleetkey.teslemetry.xyz/.well-known/appspecific/com.tesla.3p.public-key.pem`,
+    ),
+  );
 </script>
 
 <template>
