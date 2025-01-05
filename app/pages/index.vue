@@ -27,7 +27,7 @@ const upload = () =>
     body: { id: id.value, pem: pem.value },
   }).then(
     () =>
-      (window.location.href = `https://${id}.fleetkey.cc/.well-known/appspecific/com.tesla.3p.public-key.pem`),
+      (window.location.href = `https://${id.value}.fleetkey.cc/.well-known/appspecific/com.tesla.3p.public-key.pem`),
   );
 </script>
 
