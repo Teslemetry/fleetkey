@@ -67,9 +67,24 @@ const upload = () =>
       </template>
     </ULandingHero>
 
+    <ULandingCTA
+      :title="`Your origin domain is https://${id}.fleetkey.cc`"
+      card
+    />
     <ULandingSection
-      headline="Your Origin domain:"
-      :title="`${id}.fleetkey.cc`"
+      title="Step 2"
+      :description="`Create a Tesla Fleet application and set its origin to https://${id}.fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
+    >
+      <UButton
+        to="https://developer.tesla.com/request"
+        label="Create Fleet API application"
+        target="_blank"
+        block
+      />
+    </ULandingSection>
+    <ULandingSection
+      title="Step 3"
+      description="A public key must be hosted on the application's domain before making calls to Fleet API. The key is used to validate ownership of the domain and provide additional security when using Vehicle Commands and Fleet Telemetry."
     >
       <div>
         <div>
@@ -105,6 +120,16 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
           block
         />
       </div>
+    </ULandingSection>
+    <ULandingSection
+      title="Step 4"
+      description="Generate a partner authentication token and use it to call the register endpoint to complete registration with Fleet API."
+      :links="{
+        label: 'Documentation',
+        to: 'https://developer.tesla.com/docs/fleet-api/getting-started/what-is-fleet-api#step-3-generate-a-public-private-key-pair',
+      }"
+    >
+      More on this step coming soon
     </ULandingSection>
   </div>
 </template>
