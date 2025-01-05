@@ -1,6 +1,5 @@
 export default eventHandler(async (event) => {
   const { id, pem } = await readBody<{ id: string; pem: string }>(event);
-  console.log(id, pem);
   if (
     !pem.startsWith("-----BEGIN PUBLIC KEY-----") ||
     !pem.endsWith("-----END PUBLIC KEY-----")
