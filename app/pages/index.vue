@@ -1,12 +1,36 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())
+const { data: page } = await useAsyncData("index", () =>
+  queryContent("/").findOne(),
+);
 
 useSeoMeta({
   title: page.value.title,
   ogTitle: page.value.title,
   description: page.value.description,
-  ogDescription: page.value.description
-})
+  ogDescription: page.value.description,
+});
+
+const router = useRouter();
+
+const pem = useState("publicKey", () => "");
+
+const id = Math.random().toString(36).substring(2, 15);
+
+const valid = computed(
+  () =>
+    pem.value.length > 20 &&
+    pem.value.startsWith("-----BEGIN PUBLIC KEY-----") &&
+    pem.value.endsWith("-----END PUBLIC KEY-----"),
+);
+
+const upload = () =>
+  hubKV()
+    .set(id, pem)
+    .then(() =>
+      router.push(
+        `https://${id}.fleetkey.teslemetry.xyz/.well-known/appspecific/com.tesla.3p.public-key.pem`,
+      ),
+    );
 </script>
 
 <template>
@@ -29,10 +53,7 @@ useSeoMeta({
             class="focus:outline-none"
             tabindex="-1"
           >
-            <span
-              class="absolute inset-0"
-              aria-hidden="true"
-            />
+            <span class="absolute inset-0" aria-hidden="true" />
           </NuxtLink>
 
           {{ page.hero.headline.label }}
@@ -44,102 +65,35 @@ useSeoMeta({
           />
         </UBadge>
       </template>
-
-      <ImagePlaceholder />
-
-      <ULandingLogos
-        :title="page.logos.title"
-        align="center"
-      >
-        <UIcon
-          v-for="icon in page.logos.icons"
-          :key="icon"
-          :name="icon"
-          class="w-12 h-12 lg:w-16 lg:h-16 flex-shrink-0 text-gray-900 dark:text-white"
-        />
-      </ULandingLogos>
     </ULandingHero>
 
     <ULandingSection
-      :title="page.features.title"
-      :description="page.features.description"
-      :headline="page.features.headline"
+      headline="Upload your public key to"
+      :title="`${id}.fleetkey.teslemetry.xyz`"
     >
-      <UPageGrid
-        id="features"
-        class="scroll-mt-[calc(var(--header-height)+140px+128px+96px)]"
-      >
-        <ULandingCard
-          v-for="(item, index) in page.features.items"
-          :key="index"
-          v-bind="item"
+      <div>
+        <pre>
+          openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem
+          openssl ec -in private-key.pem -pubout -out public-key.pem
+        </pre>
+
+        <UTextarea
+          v-model="pem"
+          :rows="4"
+          autoresize
+          placeholder="-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1FyaPetb5B7G7rL7Sij5L+ZIFawV
+m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
+-----END PUBLIC KEY-----"
         />
-      </UPageGrid>
-    </ULandingSection>
-
-    <ULandingSection
-      :title="page.pricing.title"
-      :description="page.pricing.description"
-      :headline="page.pricing.headline"
-    >
-      <UPricingGrid
-        id="pricing"
-        compact
-        class="scroll-mt-[calc(var(--header-height)+140px+128px+96px)]"
-      >
-        <UPricingCard
-          v-for="(plan, index) in page.pricing.plans"
-          :key="index"
-          v-bind="plan"
+        <UButton
+          class="mt-4"
+          :label="`Upload to ${id}.fleetkey.teslemetry.xyz`"
+          @click="upload"
+          :disabled="!valid"
+          block
         />
-      </UPricingGrid>
-    </ULandingSection>
-
-    <ULandingSection
-      :headline="page.testimonials.headline"
-      :title="page.testimonials.title"
-      :description="page.testimonials.description"
-    >
-      <UPageColumns
-        id="testimonials"
-        class="xl:columns-4 scroll-mt-[calc(var(--header-height)+140px+128px+96px)]"
-      >
-        <div
-          v-for="(testimonial, index) in page.testimonials.items"
-          :key="index"
-          class="break-inside-avoid"
-        >
-          <ULandingTestimonial v-bind="testimonial" />
-        </div>
-      </UPageColumns>
-    </ULandingSection>
-
-    <ULandingSection class="bg-primary-50 dark:bg-primary-400 dark:bg-opacity-10">
-      <ULandingCTA
-        v-bind="page.cta"
-        :card="false"
-      />
-    </ULandingSection>
-
-    <ULandingSection
-      id="faq"
-      :title="page.faq.title"
-      :description="page.faq.description"
-      class="scroll-mt-[var(--header-height)]"
-    >
-      <ULandingFAQ
-        multiple
-        :items="page.faq.items"
-        :ui="{
-          button: {
-            label: 'font-semibold',
-            trailingIcon: {
-              base: 'w-6 h-6'
-            }
-          }
-        }"
-        class="max-w-4xl mx-auto"
-      />
+      </div>
     </ULandingSection>
   </div>
 </template>
