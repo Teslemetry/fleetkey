@@ -25,9 +25,11 @@ const upload = () =>
   $fetch("/api/create", {
     method: "POST",
     body: { id: id.value, pem: pem.value },
-  }).then(
-    () =>
-      (window.location.href = `https://${id.value}.fleetkey.cc/.well-known/appspecific/com.tesla.3p.public-key.pem`),
+  }).then(() =>
+    window.open(
+      `https://${id.value}.fleetkey.cc/.well-known/appspecific/com.tesla.3p.public-key.pem`,
+      "_blank",
+    ),
   );
 </script>
 
@@ -82,6 +84,7 @@ const upload = () =>
           <span class="font-mono font-bold">
             openssl ec -in private-key.pem -pubout -out public-key.pem
           </span>
+          <br />
           then paste the public key contents below.
         </div>
 
@@ -96,7 +99,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
 -----END PUBLIC KEY-----"
         />
         <UButton
-          :label="`Upload to ${id}.fleetkey.cc`"
+          :label="`Create ${id}.fleetkey.cc`"
           @click="upload"
           :disabled="!valid"
           block
