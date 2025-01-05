@@ -22,7 +22,10 @@ const valid = computed(
 );
 
 const upload = () =>
-  $fetch("/api/create", { method: "POST", body: { id, pem } }).then(
+  $fetch("/api/create", {
+    method: "POST",
+    body: { id: id.value, pem: pem.value },
+  }).then(
     () =>
       (window.location.href = `https://${id}.fleetkey.cc/.well-known/appspecific/com.tesla.3p.public-key.pem`),
   );
@@ -71,15 +74,15 @@ const upload = () =>
           To generate a public key use
           <br />
           <span class="font-mono font-bold">
-            openssl ecparam -name prime256v1 -genkey -noout -out
-            private-key.pem</span
-          >
+            openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem
+          </span>
           <br />
           then
           <br />
-          <span class="font-mono font-bold"
-            >openssl ec -in private-key.pem -pubout -out public-key.pem</span
-          >class
+          <span class="font-mono font-bold">
+            openssl ec -in private-key.pem -pubout -out public-key.pem
+          </span>
+          class
         </div>
 
         <UTextarea
