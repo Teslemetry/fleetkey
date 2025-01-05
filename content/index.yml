@@ -1,10 +1,10 @@
 title: Fleet Key for Home Assistant
 description: Host your Tesla Fleet API public key for free
 hero:
-  title: Tesla Fleet Key for Home Assistant
-  description: Host your Tesla Fleet API public key for free
+  title: Fleet Key
+  description: Host your Tesla Fleet API public key for the Home Assistant Tesla Fleet integration
   headline:
-    label: Provided by Teslemetry
+    label: Provided by Teslemetry.com
     to: https://teslemetry.com
     icon: i-heroicons-arrow-top-right-on-square-20-solid
   links:

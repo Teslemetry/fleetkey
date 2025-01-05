@@ -10,11 +10,9 @@ useSeoMeta({
   ogDescription: page.value.description,
 });
 
-const router = useRouter();
-
 const pem = useState("publicKey", () => "");
 
-const id = Math.random().toString(36).substring(2, 15);
+const id = useState("id", () => Math.random().toString(36).substring(2, 15));
 
 const valid = computed(
   () =>
@@ -24,10 +22,9 @@ const valid = computed(
 );
 
 const upload = () =>
-  $fetch("/api/create", { method: "POST", body: { id, pem } }).then(() =>
-    router.push(
-      `https://${id}.fleetkey.teslemetry.xyz/.well-known/appspecific/com.tesla.3p.public-key.pem`,
-    ),
+  $fetch("/api/create", { method: "POST", body: { id, pem } }).then(
+    () =>
+      (window.location.href = `https://${id}.fleetkey.cc/.well-known/appspecific/com.tesla.3p.public-key.pem`),
   );
 </script>
 
@@ -67,15 +64,26 @@ const upload = () =>
 
     <ULandingSection
       headline="Upload your public key to"
-      :title="`${id}.fleetkey.teslemetry.xyz`"
+      :title="`${id}.fleetkey.cc`"
     >
       <div>
-        <pre>
-          openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem
-          openssl ec -in private-key.pem -pubout -out public-key.pem
-        </pre>
+        <div>
+          To generate a public key use
+          <br />
+          <span class="font-mono font-bold">
+            openssl ecparam -name prime256v1 -genkey -noout -out
+            private-key.pem</span
+          >
+          <br />
+          then
+          <br />
+          <span class="font-mono font-bold"
+            >openssl ec -in private-key.pem -pubout -out public-key.pem</span
+          >class
+        </div>
 
         <UTextarea
+          class="my-4"
           v-model="pem"
           :rows="4"
           autoresize
@@ -85,8 +93,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
 -----END PUBLIC KEY-----"
         />
         <UButton
-          class="mt-4"
-          :label="`Upload to ${id}.fleetkey.teslemetry.xyz`"
+          :label="`Upload to ${id}.fleetkey.cc`"
           @click="upload"
           :disabled="!valid"
           block
