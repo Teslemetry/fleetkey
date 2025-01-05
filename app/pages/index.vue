@@ -12,7 +12,7 @@ useSeoMeta({
 
 const pem = useState("publicKey", () => "");
 
-const id = useState("id", () => Math.random().toString(36).substring(2, 15));
+const id = useState("id", () => Math.random().toString(36).substring(2, 7));
 
 const valid = computed(
   () =>
@@ -66,7 +66,7 @@ const upload = () =>
     </ULandingHero>
 
     <ULandingSection
-      headline="Upload your public key to"
+      headline="Your Origin domain:"
       :title="`${id}.fleetkey.cc`"
     >
       <div>
@@ -82,7 +82,7 @@ const upload = () =>
           <span class="font-mono font-bold">
             openssl ec -in private-key.pem -pubout -out public-key.pem
           </span>
-          class
+          then paste the public key contents below.
         </div>
 
         <UTextarea
