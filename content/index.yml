@@ -1,17 +1,17 @@
-title: Nuxt UI Pro - Landing template
-description: Nuxt UI Pro is a collection of premium Vue components built on top of Nuxt UI to create beautiful & responsive Nuxt applications in minutes.
+title: Fleet Key for Home Assistant
+description: Host your Tesla Fleet API public key for free
 hero:
-  title: Build your landing in seconds
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
+  title: Tesla Fleet Key for Home Assistant
+  description: Host your Tesla Fleet API public key for free
   headline:
-    label: Made with Nuxt UI Pro
-    to: https://ui.nuxt.com/pro
+    label: Provided by Teslemetry
+    to: https://teslemetry.com
     icon: i-heroicons-arrow-top-right-on-square-20-solid
   links:
     - label: Get started
       icon: i-heroicons-arrow-right-20-solid
       trailing: true
-      to: '#features'
+      to: "#features"
       size: xl
     - label: Use this template
       icon: i-simple-icons-github

@@ -18,12 +18,14 @@
     "@nuxt/fonts": "^0.10.3",
     "@nuxt/image": "^1.8.1",
     "@nuxt/ui-pro": "^1.6.0",
+    "@nuxthub/core": "0.8.10",
     "nuxt": "^3.15.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.7.4",
     "eslint": "^9.17.0",
-    "vue-tsc": "^2.2.0"
+    "vue-tsc": "^2.2.0",
+    "wrangler": "^3.99.0"
   },
   "resolutions": {
     "nuxt": "3.14.1592"
