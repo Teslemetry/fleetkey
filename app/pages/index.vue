@@ -55,8 +55,8 @@ const register = (region) => {
     method: "POST",
     body: {
       id: id.value,
-      clientId: clientId.value,
-      clientSecret: clientSecret.value,
+      clientId: clientId.value.trim(),
+      clientSecret: clientSecret.value.trim(),
       region,
     },
   })

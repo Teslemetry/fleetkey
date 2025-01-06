@@ -5,12 +5,19 @@ export default eventHandler(async (event) => {
     clientId: string;
     clientSecret: string;
   }>(event);
+
   return $fetch("https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}&scope=openid&audience=https://fleet-api.prd.${region}.vn.cloud.tesla.com`,
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: clientId,
+      client_secret: clientSecret,
+      scope: "openid",
+      audience: `https://fleet-api.prd.${region}.vn.cloud.tesla.com`,
+    }),
   })
     .then((res) =>
       $fetch(
