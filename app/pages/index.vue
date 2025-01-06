@@ -10,6 +10,7 @@ useSeoMeta({
   ogDescription: page.value.description,
 });
 
+const toast = useToast();
 const pem = useState("publicKey", () => "");
 
 const id = useState("id", () => Math.random().toString(36).substring(2, 7));
@@ -25,12 +26,61 @@ const upload = () =>
   $fetch("/api/create", {
     method: "POST",
     body: { id: id.value, pem: pem.value },
-  }).then(() =>
-    window.open(
-      `https://${id.value}.fleetkey.cc/.well-known/appspecific/com.tesla.3p.public-key.pem`,
-      "_blank",
-    ),
+  }).then(
+    ({ success, error }) =>
+      toast.add(
+        success
+          ? {
+              title: "Success",
+              color: "green",
+            }
+          : {
+              title: error,
+              color: "red",
+            },
+      ),
+    () =>
+      toast.add({
+        title: "Server Error",
+        color: "red",
+      }),
   );
+
+const clientId = useState("clientId", () => "");
+const clientSecret = useState("clientSecret", () => "");
+const loading = useState("loading", () => "");
+const register = (region) => {
+  loading.value = region;
+  return $fetch("/api/register", {
+    method: "POST",
+    body: {
+      id: id.value,
+      clientId: clientId.value,
+      clientSecret: clientSecret.value,
+      region,
+    },
+  })
+    .then(
+      ({ success, error }) =>
+        toast.add(
+          success
+            ? {
+                title: "Success",
+                color: "green",
+              }
+            : {
+                title: error,
+                color: "red",
+              },
+        ),
+      () =>
+        toast.add({
+          title: "Server Error",
+          color: "red",
+        }),
+    )
+    .finally(() => (loading.value = ""));
+};
 </script>
 
 <template>
@@ -68,11 +118,11 @@ const upload = () =>
     </ULandingHero>
 
     <ULandingCTA
-      :title="`Your origin domain is https://${id}.fleetkey.cc`"
+      :title="`Your unique origin domain is https://${id}.fleetkey.cc`"
       card
     />
     <ULandingSection
-      title="Step 2"
+      title="Step 1 & 2"
       :description="`Create a Tesla Fleet application and set its origin to https://${id}.fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
     >
       <UButton
@@ -88,19 +138,18 @@ const upload = () =>
     >
       <div>
         <div>
-          To generate a public key use
+          First generate a private key. This needs to be placed in your Home
+          Assistant config directory for command signing.
           <br />
           <span class="font-mono font-bold">
-            openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem
+            openssl ecparam -name prime256v1 -genkey -noout -out tesla_fleet.key
           </span>
-          <br />
-          then
+          <br /><br />
+          Then generate a public key. This needs to be pasted below.
           <br />
           <span class="font-mono font-bold">
-            openssl ec -in private-key.pem -pubout -out public-key.pem
+            openssl ec -in tesla_fleet.key -pubout -out public_key.pem
           </span>
-          <br />
-          then paste the public key contents below.
         </div>
 
         <UTextarea
@@ -123,13 +172,52 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
     </ULandingSection>
     <ULandingSection
       title="Step 4"
-      description="Generate a partner authentication token and use it to call the register endpoint to complete registration with Fleet API."
-      :links="{
-        label: 'Documentation',
-        to: 'https://developer.tesla.com/docs/fleet-api/getting-started/what-is-fleet-api#step-3-generate-a-public-private-key-pair',
-      }"
+      description="Generate a partner authentication token and use it to call the register endpoint to complete registration with Fleet API. You can run these commands manually if you prefer, however these details are not stored."
     >
-      More on this step coming soon
+      <div class="flex gap-4 flex-col">
+        <UFormGroup label="Client ID">
+          <UInput placeholder="abc-123" v-model="clientId" />
+        </UFormGroup>
+        <UFormGroup label="Client Secret">
+          <UInput placeholder="secret-password" v-model="clientSecret" />
+        </UFormGroup>
+        <div class="flex gap-4 w-full">
+          <UButton
+            class="flex-1"
+            label="Register in North America & Asia-Pacific"
+            block
+            :loading="loading == 'na'"
+            :disabled="!!loading || !clientId || !clientSecret"
+            @click="register('na')"
+          />
+          <UButton
+            class="flex-1"
+            label="Register in Europe, Middle East & Africa"
+            block
+            :loading="loading == 'eu'"
+            :disabled="!!loading || !clientId || !clientSecret"
+            @click="register('eu')"
+          />
+        </div>
+      </div>
     </ULandingSection>
+    <ULandingSection
+      title="Virtual key"
+      :description="`Install your virtual key with the Tesla App by scanning or touching the QR code.`"
+    >
+      <NuxtLink :to="`https://tesla.com/_ak/${id}.fleetkey.cc`" target="_blank">
+        <Qrcode
+          :value="`https://tesla.com/_ak/${id}.fleetkey.cc`"
+          style="max-height: 20em; margin: 0 auto"
+        />
+      </NuxtLink>
+    </ULandingSection>
+    <NuxtLink to="https://teslemetry.com" target="_blank">
+      <ULandingCTA
+        title="Is this too hard or confusing?"
+        description="Teslemetry is the easy way to get real-time data into Home Assistant. Click here to check it out."
+      />
+    </NuxtLink>
+    <UNotifications :timeout="30000" pause-timeout-on-hover />
   </div>
 </template>

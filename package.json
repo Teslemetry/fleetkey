@@ -24,6 +24,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.7.4",
     "eslint": "^9.17.0",
+    "nuxt-qrcode": "^0.4.1",
     "vue-tsc": "^2.2.0",
     "wrangler": "^3.99.0"
   },

@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/ui",
     "@nuxthub/core",
+    "nuxt-qrcode",
   ],
 
   hub: {
