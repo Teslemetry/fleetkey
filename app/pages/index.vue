@@ -122,18 +122,7 @@ const register = (region) => {
       card
     />
     <ULandingSection
-      title="Step 1 & 2"
-      :description="`Create a Tesla Fleet application and set its origin to https://${id}.fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
-    >
-      <UButton
-        to="https://developer.tesla.com/request"
-        label="Create Fleet API application"
-        target="_blank"
-        block
-      />
-    </ULandingSection>
-    <ULandingSection
-      title="Step 3"
+      title="Do this first (Step 3)"
       description="A public key must be hosted on the application's domain before making calls to Fleet API. The key is used to validate ownership of the domain and provide additional security when using Vehicle Commands and Fleet Telemetry."
     >
       <div>
@@ -164,12 +153,26 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
         />
         <UButton
           :label="`Create ${id}.fleetkey.cc`"
-          @click="upload"
-          :disabled="!valid"
           block
+          size="xl"
+          :disabled="!valid"
+          @click="upload"
         />
       </div>
     </ULandingSection>
+    <ULandingSection
+      title="Step 2"
+      :description="`Create a Tesla Fleet application and set its origin to https://${id}.fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
+    >
+      <UButton
+        to="https://developer.tesla.com/request"
+        label="Create Fleet API application"
+        target="_blank"
+        block
+        size="xl"
+      />
+    </ULandingSection>
+
     <ULandingSection
       title="Step 4"
       description="Generate a partner authentication token and use it to call the register endpoint to complete registration with Fleet API. You can run these commands manually if you prefer, however these details are not stored."
@@ -186,6 +189,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
             class="flex-1"
             label="Register in North America & Asia-Pacific"
             block
+            size="xl"
             :loading="loading == 'na'"
             :disabled="!!loading || !clientId || !clientSecret"
             @click="register('na')"
@@ -194,6 +198,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
             class="flex-1"
             label="Register in Europe, Middle East & Africa"
             block
+            size="xl"
             :loading="loading == 'eu'"
             :disabled="!!loading || !clientId || !clientSecret"
             @click="register('eu')"
@@ -202,8 +207,23 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
       </div>
     </ULandingSection>
     <ULandingSection
-      title="Virtual key"
-      :description="`Install your virtual key with the Tesla App by scanning or touching the QR code.`"
+      title="Setup integration in Home Assistant"
+      description="Now you're ready to add the integration and authorise your account with OAuth."
+    >
+      <UButton
+        label="Add integrationt to Home Assistant"
+        icon="i-simple-icons-homeassistant"
+        trailing
+        color="sky"
+        size="xl"
+        to="https://my.home-assistant.io/redirect/config_flow_start/?domain=tesla_fleet"
+        target="_blank"
+        block
+      />
+    </ULandingSection>
+    <ULandingSection
+      title="Add Virtual key to vehicles"
+      description="After you have setup the integration in Home Assistant, you can install your virtual key with the Tesla App by scanning or touching the QR code."
     >
       <NuxtLink :to="`https://tesla.com/_ak/${id}.fleetkey.cc`" target="_blank">
         <Qrcode
