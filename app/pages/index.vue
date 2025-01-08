@@ -161,7 +161,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
       </div>
     </ULandingSection>
     <ULandingSection
-      title="Step 2"
+      title="Application (Step 2)"
       :description="`Create a Tesla Fleet application and set its origin to https://${id}.fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
     >
       <UButton
@@ -174,7 +174,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
     </ULandingSection>
 
     <ULandingSection
-      title="Step 4"
+      title="Registration (Step 4)"
       description="Generate a partner authentication token and use it to call the register endpoint to complete registration with Fleet API. You can run these commands manually if you prefer, however these details are not stored."
     >
       <div class="flex gap-4 flex-col">
