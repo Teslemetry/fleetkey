@@ -118,7 +118,7 @@ const register = (region) => {
     </ULandingHero>
 
     <ULandingCTA
-      :title="`Your unique origin domain is https://${id}.fleetkey.cc`"
+      :title="`Your unique domain is https://${id}.fleetkey.cc`"
       card
     />
     <ULandingSection
@@ -171,6 +171,11 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
         block
         size="xl"
       />
+      <UAlert type="info">
+        If you are unable to set your origin domain to fleetkey.cc, please
+        register with any other valid domain then edit it in the Tesla Developer
+        Portal.
+      </UAlert>
     </ULandingSection>
 
     <ULandingSection
