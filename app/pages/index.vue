@@ -117,12 +117,26 @@ const register = (region) => {
       </template>
     </ULandingHero>
 
-    <ULandingCTA
-      :title="`Your unique domain is https://${id}.fleetkey.cc`"
-      card
-    />
+    <ULandingCTA :title="`Your unique domain is ${id}.fleetkey.cc`" card />
     <ULandingSection
-      title="Do this first (Step 3)"
+      title="Application (Step 2)"
+      :description="`Create a Tesla Fleet application and set its origin to https://fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
+    >
+      <UButton
+        to="https://developer.tesla.com/request"
+        label="Create Fleet API application"
+        target="_blank"
+        block
+        size="xl"
+      />
+      <UAlert
+        type="info"
+        title="If you are unable to set the origin domain to fleetkey.cc"
+        description="Register with any other valid domain then edit it in the Tesla Developer portal."
+      />
+    </ULandingSection>
+    <ULandingSection
+      title="Key creation (Step 3)"
       description="A public key must be hosted on the application's domain before making calls to Fleet API. The key is used to validate ownership of the domain and provide additional security when using Vehicle Commands and Fleet Telemetry."
     >
       <div>
@@ -160,26 +174,9 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
         />
       </div>
     </ULandingSection>
-    <ULandingSection
-      title="Application (Step 2)"
-      :description="`Create a Tesla Fleet application and set its origin to https://${id}.fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
-    >
-      <UButton
-        to="https://developer.tesla.com/request"
-        label="Create Fleet API application"
-        target="_blank"
-        block
-        size="xl"
-      />
-      <UAlert type="info">
-        If you are unable to set your origin domain to fleetkey.cc, please
-        register with any other valid domain then edit it in the Tesla Developer
-        Portal.
-      </UAlert>
-    </ULandingSection>
 
     <ULandingSection
-      title="Registration (Step 4)"
+      title="Manual Registration (Step 4)"
       description="Generate a partner authentication token and use it to call the register endpoint to complete registration with Fleet API. You can run these commands manually if you prefer, however these details are not stored."
     >
       <div class="flex gap-4 flex-col">
