@@ -185,40 +185,6 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
       </NuxtLink>
     </ULandingSection>
 
-    <ULandingSection
-      title="Manual Registration (Not Required)"
-      description="Generate a partner authentication token and use it to call the register endpoint to complete registration with Fleet API. You can run these commands manually if you prefer, however these details are not stored."
-    >
-      <div class="flex gap-4 flex-col">
-        <UFormGroup label="Client ID">
-          <UInput placeholder="abc-123" v-model="clientId" />
-        </UFormGroup>
-        <UFormGroup label="Client Secret">
-          <UInput placeholder="secret-password" v-model="clientSecret" />
-        </UFormGroup>
-        <div class="flex gap-4 w-full">
-          <UButton
-            class="flex-1"
-            label="Register in North America & Asia-Pacific"
-            block
-            size="xl"
-            :loading="loading == 'na'"
-            :disabled="!!loading || !clientId || !clientSecret"
-            @click="register('na')"
-          />
-          <UButton
-            class="flex-1"
-            label="Register in Europe, Middle East & Africa"
-            block
-            size="xl"
-            :loading="loading == 'eu'"
-            :disabled="!!loading || !clientId || !clientSecret"
-            @click="register('eu')"
-          />
-        </div>
-      </div>
-    </ULandingSection>
-
     <NuxtLink to="https://teslemetry.com" target="_blank">
       <ULandingCTA
         title="Is this too hard or confusing?"
