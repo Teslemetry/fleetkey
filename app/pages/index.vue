@@ -119,7 +119,7 @@ const register = (region) => {
 
     <ULandingCTA :title="`Your unique domain is ${id}.fleetkey.cc`" card />
     <ULandingSection
-      title="Application (Step 2)"
+      title="Developer Application"
       :description="`Create a Tesla Fleet application and set its origin to https://fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
     >
       <UButton
@@ -136,47 +136,57 @@ const register = (region) => {
       />
     </ULandingSection>
     <ULandingSection
-      title="Key creation (Step 3)"
+      title="Setup integration in Home Assistant"
+      description="Now you're ready to add the integration and authorise your account with OAuth. Come back here when prompted to host the public key."
+    >
+      <UButton
+        label="Add integrationt to Home Assistant"
+        icon="i-simple-icons-homeassistant"
+        trailing
+        color="sky"
+        size="xl"
+        to="https://my.home-assistant.io/redirect/config_flow_start/?domain=tesla_fleet"
+        target="_blank"
+        block
+      />
+    </ULandingSection>
+    <ULandingSection
+      title="Public Key hosting"
       description="A public key must be hosted on the application's domain before making calls to Fleet API. The key is used to validate ownership of the domain and provide additional security when using Vehicle Commands and Fleet Telemetry."
     >
-      <div>
-        <div>
-          First generate a private key. This needs to be placed in your Home
-          Assistant config directory for command signing.
-          <br />
-          <span class="font-mono font-bold">
-            openssl ecparam -name prime256v1 -genkey -noout -out tesla_fleet.key
-          </span>
-          <br /><br />
-          Then generate a public key. This needs to be pasted below.
-          <br />
-          <span class="font-mono font-bold">
-            openssl ec -in tesla_fleet.key -pubout -out public_key.pem
-          </span>
-        </div>
-
-        <UTextarea
-          class="my-4"
-          v-model="pem"
-          :rows="4"
-          autoresize
-          placeholder="-----BEGIN PUBLIC KEY-----
+      <UTextarea
+        class="my-4"
+        v-model="pem"
+        :rows="4"
+        autoresize
+        placeholder="-----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1FyaPetb5B7G7rL7Sij5L+ZIFawV
 m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
 -----END PUBLIC KEY-----"
-        />
-        <UButton
-          :label="`Create ${id}.fleetkey.cc`"
-          block
-          size="xl"
-          :disabled="!valid"
-          @click="upload"
-        />
-      </div>
+      />
+      <UButton
+        :label="`Create ${id}.fleetkey.cc`"
+        block
+        size="xl"
+        :disabled="!valid"
+        @click="upload"
+      />
     </ULandingSection>
 
     <ULandingSection
-      title="Manual Registration (Step 4)"
+      title="Add Virtual key to vehicles"
+      description="If you missed the QR code to install the virtual key from Home Assistant, here it is again. Scanning or touching the QR code with your Smartphone."
+    >
+      <NuxtLink :to="`https://tesla.com/_ak/${id}.fleetkey.cc`" target="_blank">
+        <Qrcode
+          :value="`https://tesla.com/_ak/${id}.fleetkey.cc`"
+          style="max-height: 20em; margin: 0 auto"
+        />
+      </NuxtLink>
+    </ULandingSection>
+
+    <ULandingSection
+      title="Manual Registration (Not Required)"
       description="Generate a partner authentication token and use it to call the register endpoint to complete registration with Fleet API. You can run these commands manually if you prefer, however these details are not stored."
     >
       <div class="flex gap-4 flex-col">
@@ -208,32 +218,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
         </div>
       </div>
     </ULandingSection>
-    <ULandingSection
-      title="Setup integration in Home Assistant"
-      description="Now you're ready to add the integration and authorise your account with OAuth."
-    >
-      <UButton
-        label="Add integrationt to Home Assistant"
-        icon="i-simple-icons-homeassistant"
-        trailing
-        color="sky"
-        size="xl"
-        to="https://my.home-assistant.io/redirect/config_flow_start/?domain=tesla_fleet"
-        target="_blank"
-        block
-      />
-    </ULandingSection>
-    <ULandingSection
-      title="Add Virtual key to vehicles"
-      description="After you have setup the integration in Home Assistant, you can install your virtual key with the Tesla App by scanning or touching the QR code."
-    >
-      <NuxtLink :to="`https://tesla.com/_ak/${id}.fleetkey.cc`" target="_blank">
-        <Qrcode
-          :value="`https://tesla.com/_ak/${id}.fleetkey.cc`"
-          style="max-height: 20em; margin: 0 auto"
-        />
-      </NuxtLink>
-    </ULandingSection>
+
     <NuxtLink to="https://teslemetry.com" target="_blank">
       <ULandingCTA
         title="Is this too hard or confusing?"
