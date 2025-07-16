@@ -151,8 +151,8 @@ const register = (region) => {
       />
     </ULandingSection>
     <ULandingSection
-      title="Public Key hosting"
-      description="A public key must be hosted on the application's domain before making calls to Fleet API. The key is used to validate ownership of the domain and provide additional security when using Vehicle Commands and Fleet Telemetry."
+      title="Host Public Key"
+      description="Copy and paste the public key from Home Assistant and then click Create."
     >
       <UTextarea
         class="my-4"
@@ -174,8 +174,13 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
     </ULandingSection>
 
     <ULandingSection
+      title="Finish setup in Home Assistant"
+      description="Home Assistant will now try and register the domain with Tesla. If it doesn't work immediately, try again in a minute."
+    />
+
+    <ULandingSection
       title="Add Virtual key to vehicles"
-      description="If you missed the QR code to install the virtual key from Home Assistant, here it is again. Scanning or touching the QR code with your Smartphone."
+      description="If you missed the QR code to install the virtual key from Home Assistant, here it is again. Scan or tap the QR code with your Smartphone."
     >
       <NuxtLink :to="`https://tesla.com/_ak/${id}.fleetkey.cc`" target="_blank">
         <Qrcode
