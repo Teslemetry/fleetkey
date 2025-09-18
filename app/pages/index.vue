@@ -117,10 +117,10 @@ const register = (region) => {
       </template>
     </ULandingHero>
 
-    <ULandingCTA :title="`Your unique domain is ${id}.fleetkey.cc`" card />
+    <ULandingCTA :title="`Your unique domain is ${id}.fleetkey.net`" card />
     <ULandingSection
       title="Developer Application"
-      :description="`Create a Tesla Fleet application and set its origin to https://fleetkey.cc, and redirect to https://my.home-assistant.io/redirect/oauth.`"
+      :description="`Create a Tesla Fleet application and set its origin to https://fleetkey.net, and redirect to https://my.home-assistant.io/redirect/oauth.`"
     >
       <UButton
         to="https://developer.tesla.com/request"
@@ -131,7 +131,7 @@ const register = (region) => {
       />
       <UAlert
         type="info"
-        title="If you are unable to set the origin domain to fleetkey.cc"
+        title="If you are unable to set the origin domain to fleetkey.net"
         description="Register with any other valid domain then edit it in the Tesla Developer portal."
       />
     </ULandingSection>
@@ -165,7 +165,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
 -----END PUBLIC KEY-----"
       />
       <UButton
-        :label="`Create ${id}.fleetkey.cc`"
+        :label="`Create ${id}.fleetkey.net`"
         block
         size="xl"
         :disabled="!valid"
@@ -182,9 +182,12 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
       title="Add Virtual key to vehicles"
       description="If you missed the QR code to install the virtual key from Home Assistant, here it is again. Scan or tap the QR code with your Smartphone."
     >
-      <NuxtLink :to="`https://tesla.com/_ak/${id}.fleetkey.cc`" target="_blank">
+      <NuxtLink
+        :to="`https://tesla.com/_ak/${id}.fleetkey.net`"
+        target="_blank"
+      >
         <Qrcode
-          :value="`https://tesla.com/_ak/${id}.fleetkey.cc`"
+          :value="`https://tesla.com/_ak/${id}.fleetkey.net`"
           style="max-height: 20em; margin: 0 auto"
         />
       </NuxtLink>
