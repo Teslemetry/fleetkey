@@ -129,18 +129,13 @@ const register = (region) => {
         block
         size="xl"
       />
-      <UAlert
-        type="info"
-        title="If you are unable to set the origin domain to fleetkey.net"
-        description="Register with any other valid domain then edit it in the Tesla Developer portal."
-      />
     </ULandingSection>
     <ULandingSection
       title="Setup integration in Home Assistant"
       description="Now you're ready to add the integration and authorise your account with OAuth. Come back here when prompted to host the public key."
     >
       <UButton
-        label="Add integrationt to Home Assistant"
+        label="Add integration to Home Assistant"
         icon="i-simple-icons-homeassistant"
         trailing
         color="sky"
@@ -180,7 +175,7 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
 
     <ULandingSection
       title="Add Virtual key to vehicles"
-      description="If you missed the QR code to install the virtual key from Home Assistant, here it is again. Scan or tap the QR code with your Smartphone."
+      description="If you missed the QR code to install the virtual key from Home Assistant, here it is again. Scan or tap the QR code with your smartphone."
     >
       <NuxtLink
         :to="`https://tesla.com/_ak/${id}.fleetkey.net`"
