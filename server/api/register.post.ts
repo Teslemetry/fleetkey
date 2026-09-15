@@ -6,7 +6,7 @@ export default eventHandler(async (event) => {
     clientSecret: string
   }>(event)
 
-  return $fetch('https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token', {
+  return $fetch<{ access_token: string }>('https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

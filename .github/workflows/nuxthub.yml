@@ -8,8 +8,6 @@ jobs:
   deploy:
     name: "Deploy to NuxtHub"
     runs-on: ubuntu-latest
-    env:
-      NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
     environment:
       name: production
       url: ${{ steps.deploy.outputs.deployment-url }}
