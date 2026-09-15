@@ -28,5 +28,11 @@
     "vue-tsc": "^2.2.10",
     "wrangler": "^3.114.9"
   },
-  "packageManager": "pnpm@9.15.1"
+  "packageManager": "pnpm@9.15.1",
+  "pnpm": {
+    "overrides": {
+      "@nuxtjs/mdc": "~0.13.3",
+      "esbuild": "~0.25.0"
+    }
+  }
 }
