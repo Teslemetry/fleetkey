@@ -1,124 +1,108 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData("index", () =>
-  queryContent("/").findOne(),
-);
+import type { ButtonProps } from '@nuxt/ui'
 
 useSeoMeta({
-  title: page.value.title,
-  ogTitle: page.value.title,
-  description: page.value.description,
-  ogDescription: page.value.description,
-});
+  title: 'Fleet Key for Home Assistant',
+  ogTitle: 'Fleet Key for Home Assistant',
+  description: 'Host your Tesla Fleet API public key for free',
+  ogDescription: 'Host your Tesla Fleet API public key for free'
+})
 
-const toast = useToast();
-const pem = useState("publicKey", () => "");
+const links: ButtonProps[] = [
+  {
+    label: 'Home Assistant Documentation',
+    icon: 'i-simple-icons-homeassistant',
+    trailing: true,
+    to: 'https://www.home-assistant.io/integrations/tesla_fleet/',
+    size: 'xl'
+  },
+  {
+    label: 'Tesla Fleet API Documentation',
+    icon: 'i-simple-icons-tesla',
+    trailing: true,
+    size: 'xl',
+    variant: 'outline',
+    to: 'https://developer.tesla.com/docs/fleet-api/getting-started/what-is-fleet-api#step-3-generate-a-public-private-key-pair',
+    target: '_blank'
+  }
+]
 
-const id = useState("id", () => Math.random().toString(36).substring(2, 7));
+type ApiResult = { success: boolean, error?: string }
+
+const toast = useToast()
+const pem = useState('publicKey', () => '')
+
+const id = useState('id', () => Math.random().toString(36).substring(2, 7))
 
 const valid = computed(
   () =>
-    pem.value.length > 20 &&
-    pem.value.startsWith("-----BEGIN PUBLIC KEY-----") &&
-    pem.value.endsWith("-----END PUBLIC KEY-----"),
-);
+    pem.value.length > 20
+    && pem.value.startsWith('-----BEGIN PUBLIC KEY-----')
+    && pem.value.endsWith('-----END PUBLIC KEY-----')
+)
 
 const upload = () =>
-  $fetch("/api/create", {
-    method: "POST",
-    body: { id: id.value, pem: pem.value },
+  $fetch<ApiResult>('/api/create', {
+    method: 'POST',
+    body: { id: id.value, pem: pem.value }
   }).then(
     ({ success, error }) =>
       toast.add(
         success
           ? {
-              title: "Success",
-              color: "green",
+              title: 'Success',
+              color: 'success'
             }
           : {
               title: error,
-              color: "red",
-            },
+              color: 'error'
+            }
       ),
     () =>
       toast.add({
-        title: "Server Error",
-        color: "red",
-      }),
-  );
-
-const clientId = useState("clientId", () => "");
-const clientSecret = useState("clientSecret", () => "");
-const loading = useState("loading", () => "");
-const register = (region) => {
-  loading.value = region;
-  return $fetch("/api/register", {
-    method: "POST",
-    body: {
-      id: id.value,
-      clientId: clientId.value.trim(),
-      clientSecret: clientSecret.value.trim(),
-      region,
-    },
-  })
-    .then(
-      ({ success, error }) =>
-        toast.add(
-          success
-            ? {
-                title: "Success",
-                color: "green",
-              }
-            : {
-                title: error,
-                color: "red",
-              },
-        ),
-      () =>
-        toast.add({
-          title: "Server Error",
-          color: "red",
-        }),
-    )
-    .finally(() => (loading.value = ""));
-};
+        title: 'Server Error',
+        color: 'error'
+      })
+  )
 </script>
 
 <template>
   <div>
-    <ULandingHero
-      :title="page.hero.title"
-      :description="page.hero.description"
-      :links="page.hero.links"
+    <UPageHero
+      title="Fleet Key"
+      description="Host your Tesla Fleet API public key for the Home Assistant Tesla Fleet integration."
+      :links="links"
     >
       <template #headline>
         <UBadge
-          v-if="page.hero.headline"
           variant="subtle"
           size="lg"
           class="relative rounded-full font-semibold"
         >
           <NuxtLink
-            :to="page.hero.headline.to"
+            to="https://teslemetry.com"
             target="_blank"
             class="focus:outline-none"
             tabindex="-1"
           >
-            <span class="absolute inset-0" aria-hidden="true" />
+            <span
+              class="absolute inset-0"
+              aria-hidden="true"
+            />
           </NuxtLink>
 
-          {{ page.hero.headline.label }}
+          Provided by Teslemetry.com
 
           <UIcon
-            v-if="page.hero.headline.icon"
-            :name="page.hero.headline.icon"
+            name="i-heroicons-arrow-top-right-on-square-20-solid"
             class="ml-1 w-4 h-4 pointer-events-none"
           />
         </UBadge>
       </template>
-    </ULandingHero>
+    </UPageHero>
 
-    <ULandingCTA :title="`Your unique domain is ${id}.fleetkey.net`" card />
-    <ULandingSection
+    <UPageCTA :title="`Your unique domain is ${id}.fleetkey.net`" />
+    <UPageSection
       title="Developer Application"
       :description="`Create a Tesla Fleet application and set its origin to https://fleetkey.net, and redirect to https://my.home-assistant.io/redirect/oauth.`"
     >
@@ -129,8 +113,8 @@ const register = (region) => {
         block
         size="xl"
       />
-    </ULandingSection>
-    <ULandingSection
+    </UPageSection>
+    <UPageSection
       title="Setup integration in Home Assistant"
       description="Now you're ready to add the integration and authorise your account with OAuth. Come back here when prompted to host the public key."
     >
@@ -138,20 +122,21 @@ const register = (region) => {
         label="Add integration to Home Assistant"
         icon="i-simple-icons-homeassistant"
         trailing
-        color="sky"
+        color="info"
         size="xl"
         to="https://my.home-assistant.io/redirect/config_flow_start/?domain=tesla_fleet"
         target="_blank"
         block
+        :ui="{ trailingIcon: 'ms-0' }"
       />
-    </ULandingSection>
-    <ULandingSection
+    </UPageSection>
+    <UPageSection
       title="Host Public Key"
       description="Copy and paste the public key from Home Assistant and then click Create."
     >
       <UTextarea
-        class="my-4"
         v-model="pem"
+        class="my-4"
         :rows="4"
         autoresize
         placeholder="-----BEGIN PUBLIC KEY-----
@@ -166,14 +151,14 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
         :disabled="!valid"
         @click="upload"
       />
-    </ULandingSection>
+    </UPageSection>
 
-    <ULandingSection
+    <UPageSection
       title="Finish setup in Home Assistant"
       description="Home Assistant will now try and register the domain with Tesla. If it doesn't work immediately, try again in a minute."
     />
 
-    <ULandingSection
+    <UPageSection
       title="Add Virtual key to vehicles"
       description="If you missed the QR code to install the virtual key from Home Assistant, here it is again. Scan or tap the QR code with your smartphone."
     >
@@ -186,14 +171,16 @@ m5+vb6BWO6+bItnWq3dO5zjyFEi7N1RCigc9hgKtWPMZSLBi9rvoepv7fQ==
           style="max-height: 20em; margin: 0 auto"
         />
       </NuxtLink>
-    </ULandingSection>
+    </UPageSection>
 
-    <NuxtLink to="https://teslemetry.com" target="_blank">
-      <ULandingCTA
+    <NuxtLink
+      to="https://teslemetry.com"
+      target="_blank"
+    >
+      <UPageCTA
         title="Is this too hard or confusing?"
         description="Teslemetry is the easy way to get real-time data into Home Assistant. Click here to check it out."
       />
     </NuxtLink>
-    <UNotifications :timeout="30000" pause-timeout-on-hover />
   </div>
 </template>

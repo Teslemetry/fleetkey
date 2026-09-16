@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+/* Page ground sits one step off --ui-bg so cards and inputs stand out from it */
+body {
+  background-color: var(--ui-color-neutral-50);
+}
+
+.dark body {
+  background-color: var(--ui-color-neutral-950);
+}
