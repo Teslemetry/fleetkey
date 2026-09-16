@@ -5,7 +5,6 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/image',
     '@nuxt/ui',
-    '@nuxthub/core',
     'nuxt-qrcode'
   ],
 
@@ -15,10 +14,22 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  compatibilityDate: '2024-07-11',
+  compatibilityDate: '2025-07-15',
 
-  hub: {
-    kv: true
+  nitro: {
+    preset: 'cloudflare_pages',
+    storage: {
+      kv: {
+        driver: 'cloudflare-kv-binding',
+        binding: 'KV'
+      }
+    },
+    devStorage: {
+      kv: {
+        driver: 'fs',
+        base: './.data/kv'
+      }
+    }
   },
 
   typescript: {

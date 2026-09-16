@@ -5,8 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "preview": "wrangler pages dev dist --kv KV",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck"
@@ -17,7 +16,6 @@
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/image": "^2.1.0",
     "@nuxt/ui": "^4.11.1",
-    "@nuxthub/core": "0.8.10",
     "nuxt": "^4.5.2",
     "tailwindcss": "^4.3.3"
   },
@@ -27,7 +25,7 @@
     "nuxt-qrcode": "^0.4.10",
     "typescript": "^6.0.3",
     "vue-tsc": "^3.3.11",
-    "wrangler": "^4.131.2"
+    "wrangler": "^4.132.0"
   },
   "packageManager": "pnpm@9.15.1",
   "pnpm": {

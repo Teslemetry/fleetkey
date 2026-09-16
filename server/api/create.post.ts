@@ -9,7 +9,7 @@ export default eventHandler(async (event) => {
       error: 'Invalid public key format'
     }
   }
-  const kv = hubKV()
+  const kv = useStorage('kv')
 
   return kv.has(id).then((exists) => {
     if (exists) {
